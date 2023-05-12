@@ -1,0 +1,154 @@
+openapi: '3.0.2'
+info:
+  title: Test API
+  version: 1.0.0
+servers:
+  - description: local
+    url: http://localhost:8080
+paths:
+  
+  /test/v1:
+     post:
+      summary: Create Data
+      description: Create Data
+      requestBody:
+        $ref: '#/components/requestBodies/Save'
+      responses:
+        '200':
+          $ref: '#/components/responses/Data'  
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+     get:
+      summary: Find Data List
+      description: Find Data List
+      responses:
+        '200':
+          $ref: '#/components/responses/Data'  
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /test/v1/{id}:
+    put:
+      summary: Update Data By Id
+      description: Update Data By Id
+      parameters:
+        - $ref: '#components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/Save'
+      responses:
+        '200':
+          $ref: '#/components/responses/Data'  
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete Data By Id
+      description: Delete Data By Id
+      parameters:
+        - $ref: '#components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Data'  
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Data:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ID-001
+        nama:
+          type: string
+          example: Hanoman
+    Save:
+      type: object
+      properties:
+        nama:
+          type: string
+          example: ID-001
+            
+  requestBodies:
+    Save:
+      content:
+        application/json:
+          schema:
+           $ref: '#/components/schemas/Save'
+
+  responses:
+    Data:
+      description: "ok"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                default: 200
+              data:
+                $ref: '#/components/schemas/Data'
+              errors:
+                type: string
+                nullable: true
+                default: null  
+                  
+    400:
+      description: "Invalid input"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                default: 400
+              data:
+                default: null  
+              errors:
+                type: string
+                default: "Invalid input"
+    404:
+      description: "not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                default: 404
+              data:
+                default: null
+              errors:
+                type: string
+                default: "not found"  
+    500:
+      description: "the system is busy, please try again later"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                default: 500
+              data:
+                default: null
+              errors:
+                type: string
+                default: "the system is busy, please try again later"  
