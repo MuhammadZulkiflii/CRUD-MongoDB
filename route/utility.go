@@ -3,9 +3,10 @@ package route
 import (
 	"log"
 	"os"
-	"service/errors"
 	"strings"
 	"time"
+
+	"github.com/MuhammadZulkiflii/CRUD-MongoDB/errors"
 
 	"github.com/gin-gonic/gin"
 )
